@@ -100,7 +100,7 @@ Parte `plotting`
         * Si può plottare con `plot(x_points, y_points)`
         * Si può voler limitare l'asse y mediante la funzione `ylim(min,max)`
         * Si può usare `Axes#xscale("log")` per impostare una scala logaritmica sull'asse x 
-        * Si può usare `list(map(f,l))` per produrre una lista applicando `f` ad ogni elemento della lista `l` 
+        * Si può usare `list(map(f,l))` per produrre una lista applicando `f` ad ogni elemento della lista `l`. Un'alternativa con NumPy potrebbe essere: usare `fvec = np.vectorize(f)` per ottenere una funzione `fvec` che usi `f` per lavorare su array in modo member-wise (cf. broadcasting).
         * Al posto della funzione fattoriale, si può considerare la funzione [gamma](https://en.wikipedia.org/wiki/Gamma_function), che è una generalizzazione del fattoriale su valori reali. In Python: `math.gamma()`
 ![](imgs/functions.png)
 
