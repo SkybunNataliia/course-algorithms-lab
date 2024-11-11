@@ -21,3 +21,9 @@ def function_to_be_profiled(max):
     arr = create_list(max)
     selection_sort(arr)
     print(arr[0], arr[len(arr)-1])
+
+with cProfile.Profile() as pr:
+    function_to_be_profiled (1000)
+
+print (f"### Profiling for n = 1000 ###")
+pr.print_stats()

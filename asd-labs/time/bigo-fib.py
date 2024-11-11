@@ -11,4 +11,8 @@ def fib_iter(n):
         a, b = b, a+b
     return b
 
-# TODO: use big_o to analyse the complexity of `fib` and `fib_iter`
+rec_best, rec_others = big_o.big_o(fib, big_o.datagen.n_, n_repeats=5, min_n = 1, max_n = 25, n_measures = 5)
+print("FIB_REC: ", rec_best)
+
+it_best, it_others = big_o.big_o(fib_iter, big_o.datagen.n_, n_repeats=50, min_n = 1, max_n = 1000, n_measures = 50)
+print("FIB_ITER: ", it_best)
