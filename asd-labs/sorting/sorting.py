@@ -4,7 +4,7 @@ sizes = [10,100,1000,2000,5000]
 sys.setrecursionlimit(2 * max(sizes))
 
 def selection_sort(a):
-    n = len(a)
+    n = len(a) - 1
     for i in range(n):
         # Interval to consider
         interval = a[i:]
