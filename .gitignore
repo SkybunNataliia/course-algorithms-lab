@@ -1,3 +1,6 @@
 .metals/
 *.out
 __pycache__/
+Lib/
+Scripts/
+pyvenv.cfg
