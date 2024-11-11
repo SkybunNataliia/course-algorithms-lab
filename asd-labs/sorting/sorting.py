@@ -26,7 +26,16 @@ def insertion_sort(a):
         a[j + 1] = pivot
 
 def bubble_sort(a):
-    pass
+    n = len(a)
+    i = 0
+    swapped = True
+    while swapped and i < n-1:
+        swapped = False
+        for k in range(n - 1 - i):
+            if a[k] > a[k+1]:
+                a[k], a[k+1] = a[k+1], a[k]
+                swapped = True
+        i += 1
 
 def merge_sort(a):
     pass
