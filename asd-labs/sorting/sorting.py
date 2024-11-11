@@ -4,7 +4,15 @@ sizes = [10,100,1000,2000,5000]
 sys.setrecursionlimit(2 * max(sizes))
 
 def selection_sort(a):
-    pass
+    n = len(a)
+    for i in range(n):
+        # Interval to consider
+        interval = a[i:]
+        # Min index of entire array, with offset
+        min_index = i + interval.index(min(interval))
+        # Swap of elements
+        a[i], a[min_index] = a[min_index], a[i]
+    return a
 
 def insertion_sort(a):
     pass
