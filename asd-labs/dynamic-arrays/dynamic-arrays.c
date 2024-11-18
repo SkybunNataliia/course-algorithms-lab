@@ -142,8 +142,16 @@ void darray_insert(DArray* da, int insert_pos, TInfo value) {
     (da->item)[insert_pos] = value;
 }
 
+/* Atta a verificare con asserzioni che
+*  l'array dinamico indicato ha lo stesso contenuto
+*  dell'array "tradizionale" fornito
+*/
 void darray_assert_equals(DArray* da, TInfo* expected, int expected_len) {
-    // TODO
+    assert(da->size == expected_len);
+
+    for (int i = 0; i < expected_len; i++) {
+        assert(da->item[i] == expected[i]);
+    }
 }
 
 void test() {
