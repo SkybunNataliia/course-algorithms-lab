@@ -57,7 +57,6 @@ DArray darray_create_capac(int initial_size, int initial_capacity) {
 }
 
 void darray_set(DArray* da, int pos, TInfo value) {
-    int curr_size = da->size;
     if (da->size <= pos) {
         darray_resize(da, pos+1);
     }
@@ -128,8 +127,19 @@ void darray_expand(DArray* da, TInfo* arr, int sz) {
     }
 }
 
+/* Atta ad aggiungere alla posizione indicata un nuovo elemento
+*  (traslando opportunamenti quelli attualmente presenti)
+*/
 void darray_insert(DArray* da, int insert_pos, TInfo value) {
-    // TODO
+    if (insert_pos < 0 || insert_pos > da->size) {
+        return;
+    }
+    int new_size = da->size;
+    darray_resize(da, new_size+1);
+    for (int i = new_size; i > insert_pos; i--) {
+        (da->item)[i] = (da->item)[i-1];
+    }
+    (da->item)[insert_pos] = value;
 }
 
 void darray_assert_equals(DArray* da, TInfo* expected, int expected_len) {
