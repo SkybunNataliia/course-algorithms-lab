@@ -2,13 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * TODO: implementare le seguenti funzioni:
- * - darray_append(DArray* da, TInfo value)
- * - darray_insert(DArray* da, int insert_pos, TInfo value)
- * - darray_assert_equals(DArray* da, TInfo* expected, int expected_len)
- */
-
 // NB: compile with gcc "-DDEBUG"
 #ifdef DEBUG
 #define LOG(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
@@ -30,6 +23,20 @@ struct SDArray {
 };
 typedef struct SDArray DArray;
 
+void darray_resize(DArray* da, int new_size);
+void darray_set(DArray* da, int pos, TInfo value);
+void darray_destroy(DArray* da);
+void darray_print(DArray* da, char* eol);
+void darray_resize_linear(DArray* da, int new_size);
+void darray_resize_geometric(DArray* da, int new_size);
+void darray_append(DArray* da, TInfo value);
+void darray_expand(DArray* da, TInfo* arr, int sz);
+void darray_insert(DArray* da, int insert_pos, TInfo value);
+void darray_assert_equals(DArray* da, TInfo* expected, int expected_len);
+DArray darray_create(int initial_size);
+DArray darray_create_capac(int initial_size, int initial_capacity);
+
+
 DArray darray_create(int initial_size) {
     DArray a;
     a.item = (TInfo*) malloc(sizeof(TInfo) * initial_size);
@@ -50,6 +57,10 @@ DArray darray_create_capac(int initial_size, int initial_capacity) {
 }
 
 void darray_set(DArray* da, int pos, TInfo value) {
+    int curr_size = da->size;
+    if (da->size <= pos) {
+        darray_resize(da, pos+1);
+    }
     (da->item)[pos] = value;
 }
 
@@ -101,8 +112,12 @@ void darray_resize(DArray* da, int new_size) {
     f_resize(da, new_size);
 }
 
+/* Atta ad aggiungere alla fine dell'array un elemento
+*  (ridimensionando l'array)
+*/
 void darray_append(DArray* da, TInfo value) {
-    // TODO
+    int pos = da->size;
+    darray_set(da, pos, value);
 }
 
 void darray_expand(DArray* da, TInfo* arr, int sz) {
