@@ -206,6 +206,10 @@ int hashtable_search_value(HashTable* h, TValue val);
 int hashtable_search_keyvalue(HashTable* h, TKey key, TValue val);
 void hashtable_print(HashTable* h, int include_empty_buckets, char *pre);
 
+void test_init();
+HashTable *hashtable_init(int nbuckets, TInfo* entries, int nentries);
+HashTable *hashtable_merge(HashTable* h1, HashTable *h2);
+
 HashTable *hashtable_create(int nbuckets) {
     HashTable *h = (HashTable*) malloc(sizeof(HashTable));
     if(h == NULL) return NULL;
@@ -243,6 +247,19 @@ void hashtable_insert(HashTable* h, TKey key, TValue val) {
         h->bucket[hash] = list_create(info, h->bucket[hash]);
     }
 }
+
+/* 
+* Crea e inizializza una hashtable con le entry fornite
+*/
+HashTable *hashtable_init(int nbuckets, TInfo* entries, int nentries) {
+    HashTable* h = hashtable_create(nbuckets);
+    for (int i =0; i < nentries; i++) {
+        hashtable_insert(h, entries[i].key, entries[i].value);
+    }
+    return h;
+}
+
+HashTable *hashtable_merge(HashTable* h1, HashTable *h2);
 
 void hashtable_delete(HashTable* ht, TKey key) {
     unsigned int h = hashtable_hash(ht, key);
@@ -311,5 +328,24 @@ int main(void) {
     hashtable_print(h, 0, "after removal of key 4 =");
     hashtable_delete_value(h, 175, 55);
     hashtable_print(h, 0, "after removal of element 55 =");
+
+    test_init();
+
+    hashtable_destroy(h);
+
     return 0;
+}
+
+void test_init() {
+    TInfo entries[] = {
+        {1, 88},
+        {7, 55}
+    };
+    HashTable* h = hashtable_init(5, entries, 2);
+    hashtable_print(h, 0, "initialised ht =");
+    hashtable_print(h, 1, "initialised ht (full viz) =");
+}
+
+void test_merge() {
+
 }
