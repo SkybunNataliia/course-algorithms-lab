@@ -36,14 +36,10 @@ void darray_assert_equals(DArray* da, TInfo* expected, int expected_len);
 DArray darray_create(int initial_size);
 DArray darray_create_capac(int initial_size, int initial_capacity);
 
+static void (*f_resize)(DArray*,int) = &darray_resize_linear;
 
 DArray darray_create(int initial_size) {
-    DArray a;
-    a.item = (TInfo*) malloc(sizeof(TInfo) * initial_size);
-    assert(initial_size==0 || a.item!=NULL);
-    a.capacity = initial_size;
-    a.size = initial_size;
-    return a;
+    return darray_create_capac(initial_size, initial_size);
 }
 
 DArray darray_create_capac(int initial_size, int initial_capacity) {
@@ -106,7 +102,6 @@ void darray_resize_geometric(DArray* da, int new_size) {
     da->size = new_size;
 }
 
-static void (*f_resize)(DArray*,int) = &darray_resize_linear;
 void darray_resize(DArray* da, int new_size) {
     f_resize(da, new_size);
 }
@@ -174,6 +169,8 @@ void test() {
     darray_print(&da,"\n");
     darray_assert_equals(&da, (int[]){1,2,3,0,1,2,3,4,5,6,7,8,9,10}, 14);
     darray_insert(&da, 2, 55);
+    //darray_resize(&da, 100);
+    darray_set(&da, 80, 888);
     darray_assert_equals(&da, (int[]){1,2,55,3,0,1,2,3,4,5,6,7,8,9,10}, 15);
     darray_print(&da,"\n\n");
 }
