@@ -207,6 +207,7 @@ int hashtable_search_keyvalue(HashTable* h, TKey key, TValue val);
 void hashtable_print(HashTable* h, int include_empty_buckets, char *pre);
 
 void test_init();
+void test_merge();
 HashTable *hashtable_init(int nbuckets, TInfo* entries, int nentries);
 HashTable *hashtable_merge(HashTable* h1, HashTable *h2);
 
@@ -259,7 +260,32 @@ HashTable *hashtable_init(int nbuckets, TInfo* entries, int nentries) {
     return h;
 }
 
-HashTable *hashtable_merge(HashTable* h1, HashTable *h2);
+/*
+* Restituisca una nuova hashtable data dall'unione delle due tabelle hash
+* fornite in input.
+*/
+HashTable *hashtable_merge(HashTable* h1, HashTable *h2) {
+    int buckets = h1->nbuckets + h2->nbuckets;
+    HashTable* h = hashtable_create(buckets);
+
+    for (int i = 0; i < h1->nbuckets; i++) {
+        list* bucket = h1->bucket[i];
+        while (bucket != NULL) {
+            hashtable_insert(h, bucket->val.key, bucket->val.value);
+            bucket = bucket->next;
+        }
+    }
+
+    for (int i = 0; i < h2->nbuckets; i++) {
+        list* bucket = h2->bucket[i];
+        while (bucket != NULL) {
+            hashtable_insert(h, bucket->val.key, bucket->val.value);
+            bucket = bucket->next;
+        }
+    }
+
+    return h;
+}
 
 void hashtable_delete(HashTable* ht, TKey key) {
     unsigned int h = hashtable_hash(ht, key);
@@ -331,6 +357,8 @@ int main(void) {
 
     test_init();
 
+    test_merge();
+
     hashtable_destroy(h);
 
     return 0;
@@ -344,8 +372,27 @@ void test_init() {
     HashTable* h = hashtable_init(5, entries, 2);
     hashtable_print(h, 0, "initialised ht =");
     hashtable_print(h, 1, "initialised ht (full viz) =");
+
+    hashtable_destroy(h);
 }
 
 void test_merge() {
+    HashTable *h1 = hashtable_create(5);
+    hashtable_insert(h1, 1, 100);
+    hashtable_insert(h1, 2, 200);
 
+    HashTable *h2 = hashtable_create(5);
+    hashtable_insert(h2, 3, 300);
+    hashtable_insert(h2, 4, 400);
+    hashtable_insert(h2, 2, 250);
+
+    HashTable *merged = hashtable_merge(h1, h2);
+
+    hashtable_print(h1, 1, "HashTable 1:");
+    hashtable_print(h2, 1, "HashTable 2:");
+    hashtable_print(merged, 1, "Merged HashTable:");
+
+    hashtable_destroy(h1);
+    hashtable_destroy(h2);
+    hashtable_destroy(merged);
 }
