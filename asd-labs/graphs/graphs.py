@@ -71,16 +71,48 @@ def dfv(g, root, f):
 # annotazione grafo per cammini di costo minimo da un nodo sorgente
 # The function should annotate the nodes with their parent and distance from source
 def dijkstra(g, src):
-    # initialization
     for n in g.nodes:
         g.nodes[n][L_VISITED] = False
         g.nodes[n][L_DIST] = float("inf")
         g.nodes[n][L_PARENT] = ''
-    pass
+    g.nodes[src][L_DIST] = 0
+    
+    unvisited_nodes = list(g.nodes)
+    
+    while unvisited_nodes:
+        min_node = min(unvisited_nodes, key=lambda node: g.nodes[node][L_DIST])
+        
+        current_node = min_node
+        current_dist = g.nodes[current_node][L_DIST]
+
+        if current_dist == float("inf"):
+            break
+        
+        unvisited_nodes.remove(current_node)
+        
+        for neighbor in g.neighbors(current_node):
+            weight = g[current_node][neighbor]['weight']
+            new_dist = current_dist + weight
+            
+            if new_dist < g.nodes[neighbor][L_DIST]:
+                g.nodes[neighbor][L_DIST] = new_dist
+                g.nodes[neighbor][L_PARENT] = current_node
 
 # produzione del cammino di costo minimo da un grafo annotato con Dijkstra
 def shortest_path(g, src, dest):
-    pass
+    path = []
+    current_node = dest
+    
+    if g.nodes[dest][L_DIST] == float("inf"):
+        return path
+
+    while current_node is not None:
+        path.append(current_node)
+        parent = g.nodes[current_node][L_PARENT]
+        current_node = parent if parent != '' else None
+
+    path.reverse()
+    return path
 
 if __name__ == "__main__":
     g = nx.Graph()
