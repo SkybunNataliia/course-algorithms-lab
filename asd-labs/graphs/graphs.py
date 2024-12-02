@@ -53,11 +53,22 @@ def bfv(g, root, f):
                 g.nodes[neighbor][L_VISITED] = True
                 queue.append(neighbor)
 
-# TODO: implement this   visita in profondità
+# visita in profondità
 def dfv(g, root, f):
-    pass
+    for n in g.nodes:
+        g.nodes[n][L_VISITED] = False
+    
+    # Funzione ricorsiva per visitare i nodi
+    def dfs_visit(node):
+        g.nodes[node][L_VISITED] = True
+        f(node)
+        for neighbor in g.neighbors(node):
+            if not g.nodes[neighbor][L_VISITED]:
+                dfs_visit(neighbor)
+    
+    dfs_visit(root)
 
-# TODO: implement this  annotazione grafo per cammini di costo minimo da un nodo sorgente
+# annotazione grafo per cammini di costo minimo da un nodo sorgente
 # The function should annotate the nodes with their parent and distance from source
 def dijkstra(g, src):
     # initialization
