@@ -37,15 +37,27 @@ def plot_basic_graph(G, pos = None, layout = nx.random_layout, seed = None):
     fig.set_facecolor("#ededed")
     plt.show()
 
-# TODO: implement this
+# visita in ampiezza
 def bfv(g, root, f):
-    pass
+    for n in g.nodes:
+        g.nodes[n][L_VISITED] = False
 
-# TODO: implement this
+    queue = deque([root])
+    g.nodes[root][L_VISITED] = True
+    
+    while queue:
+        current = queue.popleft()
+        f(current)
+        for neighbor in g.neighbors(current):
+            if not g.nodes[neighbor][L_VISITED]:
+                g.nodes[neighbor][L_VISITED] = True
+                queue.append(neighbor)
+
+# TODO: implement this   visita in profondità
 def dfv(g, root, f):
     pass
 
-# TODO: implement this
+# TODO: implement this  annotazione grafo per cammini di costo minimo da un nodo sorgente
 # The function should annotate the nodes with their parent and distance from source
 def dijkstra(g, src):
     # initialization
@@ -55,6 +67,7 @@ def dijkstra(g, src):
         g.nodes[n][L_PARENT] = ''
     pass
 
+# produzione del cammino di costo minimo da un grafo annotato con Dijkstra
 def shortest_path(g, src, dest):
     pass
 
