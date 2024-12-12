@@ -57,16 +57,14 @@ def bfv(g, root, f):
 def dfv(g, root, f):
     for n in g.nodes:
         g.nodes[n][L_VISITED] = False
-    
-    # Funzione ricorsiva per visitare i nodi
-    def dfs_visit(node):
-        g.nodes[node][L_VISITED] = True
-        f(node)
-        for neighbor in g.neighbors(node):
-            if not g.nodes[neighbor][L_VISITED]:
-                dfs_visit(neighbor)
-    
-    dfs_visit(root)
+    return dfv_rec(g, root, f)
+
+def dfv_rec(g, root, f):
+    g.nodes[root][L_VISITED] = True
+    f(root)
+    for neighbor in g.neighbors(root):
+        if not g.nodes[neighbor][L_VISITED]:
+            dfv_rec(g, neighbor, f)
 
 # annotazione grafo per cammini di costo minimo da un nodo sorgente
 # The function should annotate the nodes with their parent and distance from source
