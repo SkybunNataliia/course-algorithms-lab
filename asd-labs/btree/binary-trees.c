@@ -30,7 +30,7 @@ TBinaryTree binarytree_destroy();
 void binarytree_visit(TBinaryTree tree, void (*f)(TInfo));
 void binarytree_visit_preorder(TBinaryTree tree, void (*f)(TInfo));
 void binarytree_visit_postorder(TBinaryTree tree, void (*f)(TInfo));
-TNode *binarytree_search(TBinaryTree tree, TInfo value);
+TNode *binarytree_search_min(TBinaryTree tree);
 TNode *binarytree_search(TBinaryTree tree, TInfo value);
 TBinaryTree binarytree_insert(TBinaryTree tree, TInfo info);
 TBinaryTree binarytree_delete(TBinaryTree tree, TInfo info);
@@ -177,7 +177,11 @@ int binarytree_count_nodes(TBinaryTree tree) {
 
 
 TBinaryTree binarytree_init(TInfo* entries, int nentries) {
-    return NULL; // TODO: implement this
+    TBinaryTree tree = binarytree_create();
+    for (int i = 0; i < nentries; i++) {
+        binarytree_insert(tree, entries[i]);
+    }
+    return tree;
 }
 
 int binarytree_height(TBinaryTree tree) {
