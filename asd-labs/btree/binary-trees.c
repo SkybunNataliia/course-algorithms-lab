@@ -175,6 +175,24 @@ int binarytree_count_nodes(TBinaryTree tree) {
     return 1 + nnodes_left + nnodes_right;
 }
 
+/*
+// Operations on btrees
+void binarytree_visit(TBinaryTree tree, void (*f)(TInfo)) {
+    if(tree != NULL) {
+        binarytree_visit(tree->left, f);
+        f(tree->info);
+        binarytree_visit(tree->right, f);
+    }
+}
+
+void binarytree_visit_preorder(TBinaryTree tree, void (*f)(TInfo)) {
+    if(tree != NULL) {
+        f(tree->info);
+        binarytree_visit_preorder(tree->left, f);
+        binarytree_visit_preorder(tree->right, f);
+    }
+}
+*/
 
 TBinaryTree binarytree_init(TInfo* entries, int nentries) {
     TBinaryTree tree = binarytree_create();
@@ -193,7 +211,12 @@ int binarytree_count_leaves(TBinaryTree tree) {
 }
 
 void binarytree_visit_postorder(TBinaryTree tree, void (*f)(TInfo)) {
-    // TODO: implement this
+    // si visitano prima le foglie, per poi risalire verso la radice
+    if (tree != NULL) {
+        binarytree_visit_postorder(tree->left, f);
+        binarytree_visit_postorder(tree->right, f);
+        f(tree->info);
+    }
 }
 
 int main() {
