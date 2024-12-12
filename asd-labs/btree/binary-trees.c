@@ -191,11 +191,12 @@ int binarytree_height(TBinaryTree tree) {
 }
 
 int binarytree_count_leaves(TBinaryTree tree) {
-    return -1; // TODO: implement this
+    if (tree == NULL) return 0;
+    if (tree->left == NULL && tree->right == NULL) return 1;
+    return binarytree_count_leaves(tree->left) + binarytree_count_leaves(tree->right);
 }
 
 void binarytree_visit_postorder(TBinaryTree tree, void (*f)(TInfo)) {
-    // si visitano prima le foglie, per poi risalire verso la radice
     if (tree != NULL) {
         binarytree_visit_postorder(tree->left, f);
         binarytree_visit_postorder(tree->right, f);
